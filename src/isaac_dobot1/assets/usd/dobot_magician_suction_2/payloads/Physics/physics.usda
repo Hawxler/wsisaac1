@@ -1,0 +1,248 @@
+#usda 1.0
+(
+    customLayerData = {
+        string creator = "URDF USD Converter v0.3.2"
+    }
+    defaultPrim = "magician"
+    endTimeCode = 1000000
+    kilogramsPerUnit = 1
+    metersPerUnit = 1
+    startTimeCode = 0
+    upAxis = "Z"
+)
+
+over "magician"
+{
+    over "Geometry"
+    {
+        over "magician_root_link"
+        {
+            over "magician_base_link" (
+                prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsArticulationRootAPI", "NewtonArticulationRootAPI", "PhysicsMassAPI", "NewtonMassAPI"]
+            )
+            {
+                double[] newton:inertia = [0.01, 0.01, 0.01, 0, 0, 0]
+                bool newton:selfCollisionEnabled = 0
+                point3f physics:centerOfMass = (0, 0, 0)
+                float3 physics:diagonalInertia = (0.01, 0.01, 0.01)
+                float physics:mass = 1
+                quatf physics:principalAxes = (1, 0, 0, 0)
+
+                over "magician_link_1" (
+                    prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI", "NewtonMassAPI"]
+                )
+                {
+                    double[] newton:inertia = [0.002, 0.002, 0.002, 0, 0, 0]
+                    point3f physics:centerOfMass = (0, 0, 0)
+                    float3 physics:diagonalInertia = (0.002, 0.002, 0.002)
+                    float physics:mass = 0.5
+                    quatf physics:principalAxes = (1, 0, 0, 0)
+
+                    over "magician_link_2" (
+                        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI", "NewtonMassAPI"]
+                    )
+                    {
+                        double[] newton:inertia = [0.001, 0.001, 0.001, 0, 0, 0]
+                        point3f physics:centerOfMass = (0, 0, 0)
+                        float3 physics:diagonalInertia = (0.001, 0.001, 0.001)
+                        float physics:mass = 0.3
+                        quatf physics:principalAxes = (1, 0, 0, 0)
+
+                        over "magician_link_3" (
+                            prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI", "NewtonMassAPI"]
+                        )
+                        {
+                            double[] newton:inertia = [0.001, 0.001, 0.001, 0, 0, 0]
+                            point3f physics:centerOfMass = (0, 0, 0)
+                            float3 physics:diagonalInertia = (0.001, 0.001, 0.001)
+                            float physics:mass = 0.3
+                            quatf physics:principalAxes = (1, 0, 0, 0)
+
+                            over "magician_link_virtual" (
+                                prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI", "NewtonMassAPI"]
+                            )
+                            {
+                                double[] newton:inertia = [0.00001, 0.00001, 0.00001, 0, 0, 0]
+                                point3f physics:centerOfMass = (0, 0, 0)
+                                float3 physics:diagonalInertia = (0.00001, 0.00001, 0.00001)
+                                float physics:mass = 0.01
+                                quatf physics:principalAxes = (1, 0, 0, 0)
+
+                                over "magician_link_4" (
+                                    prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI", "NewtonMassAPI"]
+                                )
+                                {
+                                    double[] newton:inertia = [0.0001, 0.0001, 0.0001, 0, 0, 0]
+                                    point3f physics:centerOfMass = (0, 0, 0)
+                                    float3 physics:diagonalInertia = (0.0001, 0.0001, 0.0001)
+                                    float physics:mass = 0.1
+                                    quatf physics:principalAxes = (1, 0, 0, 0)
+
+                                    over "magician_link_suction_cup" (
+                                        prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsMassAPI", "NewtonMassAPI"]
+                                    )
+                                    {
+                                        double[] newton:inertia = [0.00001, 0.00001, 0.00001, 0, 0, 0]
+                                        point3f physics:centerOfMass = (0, 0, 0)
+                                        float3 physics:diagonalInertia = (0.00001, 0.00001, 0.00001)
+                                        float physics:mass = 0.05
+                                        quatf physics:principalAxes = (1, 0, 0, 0)
+                                    }
+                                }
+
+                                over "box_1" (
+                                    prepend apiSchemas = ["NewtonCollisionAPI"]
+                                )
+                                {
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    over "Physics"
+    {
+        def PhysicsFixedJoint "magician_joint_base" (
+            prepend apiSchemas = ["NewtonJointAPI"]
+        )
+        {
+            custom rel physics:body0
+            append rel physics:body0 = </magician>
+            custom rel physics:body1
+            append rel physics:body1 = </magician/Geometry/magician_root_link/magician_base_link>
+            point3f physics:localPos0 = (0, 0, 0.131305)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (1, 0, 0, 0)
+            quatf physics:localRot1 = (1, 0, 0, 0)
+            custom float urdf:limit:effort = 2000
+        }
+
+        def PhysicsRevoluteJoint "magician_joint_1" (
+            prepend apiSchemas = ["NewtonJointAPI", "PhysicsDriveAPI:angular", "PhysicsJointStateAPI:angular"]
+        )
+        {
+            float drive:angular:physics:maxForce = 2000
+            float newton:velocityLimit = 57.29578
+            uniform token physics:axis = "Z"
+            custom rel physics:body0
+            append rel physics:body0 = </magician/Geometry/magician_root_link/magician_base_link>
+            custom rel physics:body1
+            append rel physics:body1 = </magician/Geometry/magician_root_link/magician_base_link/magician_link_1>
+            point3f physics:localPos0 = (0, 0, 0)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (1, 0, 0, 0)
+            quatf physics:localRot1 = (1, 0, 0, 0)
+            float physics:lowerLimit = -125
+            float physics:upperLimit = 125
+            custom float urdf:limit:effort = 2000
+        }
+
+        def PhysicsRevoluteJoint "magician_joint_2" (
+            prepend apiSchemas = ["NewtonJointAPI", "PhysicsDriveAPI:angular", "PhysicsJointStateAPI:angular"]
+        )
+        {
+            float drive:angular:physics:maxForce = 2000
+            float newton:velocityLimit = 57.29578
+            uniform token physics:axis = "Y"
+            custom rel physics:body0
+            append rel physics:body0 = </magician/Geometry/magician_root_link/magician_base_link/magician_link_1>
+            custom rel physics:body1
+            append rel physics:body1 = </magician/Geometry/magician_root_link/magician_base_link/magician_link_1/magician_link_2>
+            point3f physics:localPos0 = (0, 0, 0)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (1, 0, 0, 0)
+            quatf physics:localRot1 = (1, 0, 0, 0)
+            float physics:lowerLimit = -5
+            float physics:upperLimit = 90
+            custom float urdf:limit:effort = 2000
+        }
+
+        def PhysicsRevoluteJoint "magician_joint_3" (
+            prepend apiSchemas = ["NewtonJointAPI", "PhysicsDriveAPI:angular", "PhysicsJointStateAPI:angular"]
+        )
+        {
+            float drive:angular:physics:maxForce = 2000
+            float newton:velocityLimit = 57.29578
+            uniform token physics:axis = "Y"
+            custom rel physics:body0
+            append rel physics:body0 = </magician/Geometry/magician_root_link/magician_base_link/magician_link_1/magician_link_2>
+            custom rel physics:body1
+            append rel physics:body1 = </magician/Geometry/magician_root_link/magician_base_link/magician_link_1/magician_link_2/magician_link_3>
+            point3f physics:localPos0 = (0, 0, 0.135)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (1, 0, 0, 0)
+            quatf physics:localRot1 = (1, 0, 0, 0)
+            float physics:lowerLimit = -15
+            float physics:upperLimit = 70
+            custom float urdf:limit:effort = 2000
+        }
+
+        def PhysicsRevoluteJoint "magician_joint_mimic_1" (
+            prepend apiSchemas = ["NewtonJointAPI", "NewtonMimicAPI", "PhysicsDriveAPI:angular", "PhysicsJointStateAPI:angular"]
+        )
+        {
+            float drive:angular:physics:maxForce = 2000
+            float newton:mimicCoef1 = -1
+            rel newton:mimicJoint = </magician/Physics/magician_joint_2>
+            float newton:velocityLimit = 57.29578
+            uniform token physics:axis = "Y"
+            custom rel physics:body0
+            append rel physics:body0 = </magician/Geometry/magician_root_link/magician_base_link/magician_link_1/magician_link_2/magician_link_3>
+            custom rel physics:body1
+            append rel physics:body1 = </magician/Geometry/magician_root_link/magician_base_link/magician_link_1/magician_link_2/magician_link_3/magician_link_virtual>
+            point3f physics:localPos0 = (0.147, 0, 0)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (1, 0, 0, 0)
+            quatf physics:localRot1 = (1, 0, 0, 0)
+            float physics:lowerLimit = 0
+            float physics:upperLimit = 360
+            custom float urdf:limit:effort = 2000
+        }
+
+        def PhysicsRevoluteJoint "magician_joint_mimic_2" (
+            prepend apiSchemas = ["NewtonJointAPI", "NewtonMimicAPI", "PhysicsDriveAPI:angular", "PhysicsJointStateAPI:angular"]
+        )
+        {
+            float drive:angular:physics:maxForce = 2000
+            float newton:mimicCoef1 = -1
+            rel newton:mimicJoint = </magician/Physics/magician_joint_3>
+            float newton:velocityLimit = 57.29578
+            uniform token physics:axis = "Y"
+            custom rel physics:body0
+            append rel physics:body0 = </magician/Geometry/magician_root_link/magician_base_link/magician_link_1/magician_link_2/magician_link_3/magician_link_virtual>
+            custom rel physics:body1
+            append rel physics:body1 = </magician/Geometry/magician_root_link/magician_base_link/magician_link_1/magician_link_2/magician_link_3/magician_link_virtual/magician_link_4>
+            point3f physics:localPos0 = (0, 0, 0)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (1, 0, 0, 0)
+            quatf physics:localRot1 = (1, 0, 0, 0)
+            float physics:lowerLimit = 0
+            float physics:upperLimit = 360
+            custom float urdf:limit:effort = 2000
+        }
+
+        def PhysicsRevoluteJoint "magician_joint_4" (
+            prepend apiSchemas = ["NewtonJointAPI", "PhysicsDriveAPI:angular", "PhysicsJointStateAPI:angular"]
+        )
+        {
+            float drive:angular:physics:maxForce = 2000
+            float newton:velocityLimit = 57.29578
+            uniform token physics:axis = "Z"
+            custom rel physics:body0
+            append rel physics:body0 = </magician/Geometry/magician_root_link/magician_base_link/magician_link_1/magician_link_2/magician_link_3/magician_link_virtual/magician_link_4>
+            custom rel physics:body1
+            append rel physics:body1 = </magician/Geometry/magician_root_link/magician_base_link/magician_link_1/magician_link_2/magician_link_3/magician_link_virtual/magician_link_4/magician_link_suction_cup>
+            point3f physics:localPos0 = (0.06, 0, 0)
+            point3f physics:localPos1 = (0, 0, 0)
+            quatf physics:localRot0 = (1, 0, 0, 0)
+            quatf physics:localRot1 = (1, 0, 0, 0)
+            float physics:lowerLimit = -150
+            float physics:upperLimit = 150
+            custom float urdf:limit:effort = 2000
+        }
+    }
+}
+

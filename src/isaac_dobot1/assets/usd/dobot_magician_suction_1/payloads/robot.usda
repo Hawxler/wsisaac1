@@ -1,0 +1,125 @@
+#usda 1.0
+(
+    customLayerData = {
+        string creator = "URDF USD Converter v0.3.2"
+    }
+    defaultPrim = "magician"
+    endTimeCode = 1000000
+    kilogramsPerUnit = 1
+    metersPerUnit = 1
+    startTimeCode = 0
+    upAxis = "Z"
+)
+
+over "magician" (
+    prepend apiSchemas = ["IsaacRobotAPI"]
+)
+{
+    prepend rel isaac:physics:robotJoints = [
+        </magician/Physics/magician_joint_base>,
+        </magician/Physics/magician_joint_1>,
+        </magician/Physics/magician_joint_2>,
+        </magician/Physics/magician_joint_3>,
+        </magician/Physics/magician_joint_mimic_1>,
+        </magician/Physics/magician_joint_mimic_2>,
+        </magician/Physics/magician_joint_4>,
+    ]
+    prepend rel isaac:physics:robotLinks = [
+        </magician/Geometry/magician_root_link/magician_base_link>,
+        </magician/Geometry/magician_root_link/magician_base_link/magician_link_1>,
+        </magician/Geometry/magician_root_link/magician_base_link/magician_link_1/magician_link_2>,
+        </magician/Geometry/magician_root_link/magician_base_link/magician_link_1/magician_link_2/magician_link_3>,
+        </magician/Geometry/magician_root_link/magician_base_link/magician_link_1/magician_link_2/magician_link_3/magician_link_virtual>,
+        </magician/Geometry/magician_root_link/magician_base_link/magician_link_1/magician_link_2/magician_link_3/magician_link_virtual/magician_link_4>,
+        </magician/Geometry/magician_root_link/magician_base_link/magician_link_1/magician_link_2/magician_link_3/magician_link_virtual/magician_link_4/magician_link_suction_cup>,
+    ]
+    token isaac:robotType = "Default"
+
+    over "Geometry"
+    {
+        over "magician_root_link"
+        {
+            over "magician_base_link" (
+                prepend apiSchemas = ["IsaacLinkAPI"]
+            )
+            {
+                over "magician_link_1" (
+                    prepend apiSchemas = ["IsaacLinkAPI"]
+                )
+                {
+                    over "magician_link_2" (
+                        prepend apiSchemas = ["IsaacLinkAPI"]
+                    )
+                    {
+                        over "magician_link_3" (
+                            prepend apiSchemas = ["IsaacLinkAPI"]
+                        )
+                        {
+                            over "magician_link_virtual" (
+                                prepend apiSchemas = ["IsaacLinkAPI"]
+                            )
+                            {
+                                over "magician_link_4" (
+                                    prepend apiSchemas = ["IsaacLinkAPI"]
+                                )
+                                {
+                                    over "magician_link_suction_cup" (
+                                        prepend apiSchemas = ["IsaacLinkAPI"]
+                                    )
+                                    {
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    over "Physics"
+    {
+        over "magician_joint_base" (
+            prepend apiSchemas = ["IsaacJointAPI"]
+        )
+        {
+        }
+
+        over "magician_joint_1" (
+            prepend apiSchemas = ["IsaacJointAPI"]
+        )
+        {
+        }
+
+        over "magician_joint_2" (
+            prepend apiSchemas = ["IsaacJointAPI"]
+        )
+        {
+        }
+
+        over "magician_joint_3" (
+            prepend apiSchemas = ["IsaacJointAPI"]
+        )
+        {
+        }
+
+        over "magician_joint_mimic_1" (
+            prepend apiSchemas = ["IsaacJointAPI"]
+        )
+        {
+        }
+
+        over "magician_joint_mimic_2" (
+            prepend apiSchemas = ["IsaacJointAPI"]
+        )
+        {
+        }
+
+        over "magician_joint_4" (
+            prepend apiSchemas = ["IsaacJointAPI"]
+        )
+        {
+        }
+    }
+}
+
